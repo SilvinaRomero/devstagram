@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Post;
+use App\Models\Like;
 
 class User extends Authenticatable
 {
@@ -43,4 +45,34 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // relacionar con Post One to Many (un usuario puede tener multiples posts)
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    // relacionar con los likes
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    // almacena los seguidores de un usuario
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
+    }
+
+    // almacena los que seguimos
+    public function followins()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+    }
+
+    // comprobar si un usuario ya digue a otro
+    public function siguiendo(User $user)
+    {
+        return $this->followers->contains($user->id);
+    }
 }

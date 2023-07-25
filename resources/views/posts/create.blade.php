@@ -20,7 +20,7 @@
             </form>
         </div>
         <div class="md:w-1/2 p-10 bg-white rounded-lg shadow-xl mt-10 md:mt-0">
-            <form action="{{ route('register') }}" method="POST" novalidate>
+            <form action="{{ route('posts.store') }}" method="POST" novalidate>
                 @csrf
                 {{-- name --}}
                 <div class="mb-5">
@@ -41,6 +41,12 @@
                     @error('descripcion')
                         <p class="text-red-500 my-2 rounded-lg text-sm p-1 text-left">{{ $message }}</p>
                     @enderror
+                </div>
+                <div class="md-5">
+                    <input name="image" type="hidden" value="{{old('image')}}">
+                    @error('image')
+                    <p class="text-red-500 my-2 rounded-lg text-sm p-1 text-left">{{ $message }}</p>
+                @enderror
                 </div>
                 <input type="submit" value="Crear Publicación"
                     class="bg-sky-600 hover:bg-sky-700 transition-colors cursor-pointer uppercase font-bold w-full p-3 text-white rounded-lg">
