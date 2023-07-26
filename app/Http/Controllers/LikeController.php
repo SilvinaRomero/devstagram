@@ -9,6 +9,7 @@ class LikeController extends Controller
 {
     public function store(Request $request,Post $post)
     {
+        // dd('controlador');  //despues de liverwire, ya no pasa por aqui parece
         // al crear la relacion no neceitamos pasar el $post->id
         $post->likes()->create([
             'user_id' => $request->user()->id
